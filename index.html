@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Phin & Mái – cà phê phin, cà phê trứng ở phố cổ Hà Nội. Mở cửa hằng ngày 07:00–22:30.">
+<meta property="og:title" content="Phin & Mái – Cà phê phin phố cổ Hà Nội">
+<meta property="og:description" content="Cà phê phin rang tại quán, cà phê trứng, sân thượng nhìn mái ngói.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M4 18 20 6l16 12M11 19h18l-2 6H13zM9 33h22M20 28v3' fill='none' stroke='%2392400E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Phin & Mái</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Playfair+Display+SC:wght@400;700&display=swap">
+<style>
+/* Layout: single-page café site — sticky header, split hero with a drawn phin, menu board, three-floor "space" strip, visit + booking side by side. Design system from ui-ux-pro-max (Bakery/Cafe → Soft UI Evolution, warm brown + cream). */
+:root {
+  --bg: #FEF3C7;          /* skill: background */
+  --surface: #FFFBEB;
+  --card: #FFFFFF;        /* skill: card */
+  --fg: #78350F;          /* skill: foreground */
+  --fg-soft: #8A4B1A;
+  --muted: #6B4E37;
+  --primary: #92400E;     /* skill: primary / CTA */
+  --on-primary: #FFFFFF;
+  --secondary: #B45309;   /* skill: secondary */
+  --border: #FDE68A;      /* skill: border */
+  --line: #EBCF8E;
+  --ok: #3F6212;
+  --closed: #B91C1C;
+  --ring: #92400E;
+  --shadow: 0 1px 2px rgba(120,53,15,.06), 0 6px 20px rgba(120,53,15,.08);
+  --coffee: #3B1F0E;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sc: "Playfair Display SC", "Playfair Display", Georgia, serif;
+  --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 10px;
+  --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 40px; --space-5: 64px; --space-6: 96px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C120B; --surface: #24170E; --card: #2B1C12; --fg: #F6E7C8; --fg-soft: #EBD3A8; --muted: #C9AE8A;
+    --primary: #E8A25B; --on-primary: #1C120B; --secondary: #F0B477; --border: #3D2817; --line: #4A311C;
+    --ok: #A3D977; --closed: #F87171; --ring: #F0B477; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --coffee: #120A05; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1C120B; --surface: #24170E; --card: #2B1C12; --fg: #F6E7C8; --fg-soft: #EBD3A8; --muted: #C9AE8A;
+  --primary: #E8A25B; --on-primary: #1C120B; --secondary: #F0B477; --border: #3D2817; --line: #4A311C;
+  --ok: #A3D977; --closed: #F87171; --ring: #F0B477; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --coffee: #120A05; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; font-weight: 700; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font-family: var(--font-sc); font-size: .95rem; letter-spacing: .12em; color: var(--secondary); }
+.section { padding-block: var(--space-6); }
+.section-head { display: grid; gap: var(--space-2); max-width: 640px; margin-bottom: var(--space-4); }
+.section-head h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
+.section-head p { color: var(--muted); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; font: 600 1rem/1 var(--font-body); text-decoration: none; cursor: pointer; border: 2px solid var(--primary); transition: background-color .2s ease, color .2s ease, transform .2s ease; }
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background: var(--secondary); border-color: var(--secondary); }
+.btn-ghost { background: transparent; color: var(--primary); }
+.btn-ghost:hover { background: var(--surface); }
+.btn svg { width: 18px; height: 18px; }
+
+/* Header */
+.site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand svg { width: 34px; height: 34px; color: var(--primary); flex: none; }
+.brand b { font-family: var(--font-display); font-size: 1.4rem; }
+.nav-links { display: flex; gap: var(--space-3); list-style: none; margin: 0; padding: 0; }
+.nav-links a { text-decoration: none; font-weight: 500; padding: 8px 2px; border-bottom: 2px solid transparent; transition: border-color .2s; }
+.nav-links a:hover { border-color: var(--secondary); }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--card); }
+.lang button { min-width: 44px; min-height: 38px; border: 0; border-radius: 999px; background: transparent; color: var(--fg); font: 600 .9rem var(--font-body); cursor: pointer; transition: background-color .2s, color .2s; }
+.lang button[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); }
+.nav .btn { min-height: 44px; padding: 0 18px; }
+@media (max-width: 860px) { .nav-links { display: none; } }
+@media (max-width: 480px) { .nav .btn-book { display: none; } .brand b { font-size: 1.2rem; } }
+
+/* Hero */
+.hero { padding-block: var(--space-5) var(--space-6); }
+.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: var(--space-5); align-items: center; }
+.hero-copy { display: grid; gap: var(--space-3); min-width: 0; }
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: -.01em; }
+.hero h1 em { font-style: italic; font-weight: 500; color: var(--secondary); }
+.hero .lead { font-size: 1.15rem; color: var(--fg-soft); max-width: 34em; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.status { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 14px 18px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); width: fit-content; max-width: 100%; }
+.pill { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.pill i { width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+.pill.open { color: var(--ok); } .pill.closed { color: var(--closed); }
+.status span.hrs { color: var(--muted); font-variant-numeric: tabular-nums; }
+.hero-art { position: relative; max-width: 100%; }
+.hero-art svg { width: 100%; height: auto; display: block; }
+.drip { animation: drip 2.4s ease-in infinite; }
+.steam path { animation: steam 3.2s ease-in-out infinite; opacity: .55; }
+.steam path:nth-child(2) { animation-delay: 1s; }
+@keyframes drip { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 80% { transform: translateY(46px); opacity: 1; } 100% { transform: translateY(52px); opacity: 0; } }
+@keyframes steam { 0%,100% { transform: translateY(0); opacity: .2; } 50% { transform: translateY(-8px); opacity: .6; } }
+@media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: var(--space-4); } .hero-art { max-width: 380px; margin: 0 auto; } }
+
+/* Menu */
+.menu { background: var(--surface); border-block: 1px solid var(--border); }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--space-4); }
+.tab { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font: 600 .95rem var(--font-body); cursor: pointer; transition: background-color .2s, color .2s, border-color .2s; }
+.tab:hover { border-color: var(--secondary); }
+.tab[aria-selected="true"] { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.menu-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space-5); list-style: none; padding: 0; margin: 0; }
+.item { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 20px 0; border-bottom: 1px dashed var(--line); min-width: 0; }
+.item h3 { font-size: 1.3rem; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.tag { font: 600 .72rem/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; background: var(--bg); color: var(--secondary); border: 1px solid var(--line); }
+.price { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--primary); white-space: nowrap; }
+.item p { grid-column: 1 / -1; color: var(--muted); font-size: .95rem; }
+.menu-note { margin-top: var(--space-3); color: var(--muted); font-size: .9rem; }
+@media (max-width: 760px) { .menu-list { grid-template-columns: 1fr; } }
+
+/* Story */
+.story-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: var(--space-5); align-items: start; }
+.story-quote { font-family: var(--font-display); font-style: italic; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.3; color: var(--fg); }
+.story-body { display: grid; gap: var(--space-2); color: var(--fg-soft); max-width: 62ch; }
+.facts { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-3); }
+.fact b { display: block; font-family: var(--font-display); font-size: 2.2rem; color: var(--primary); font-variant-numeric: tabular-nums; }
+.fact span { color: var(--muted); font-size: .9rem; }
+@media (max-width: 860px) { .story-grid { grid-template-columns: 1fr; gap: var(--space-3); } }
+
+/* Space — three floors */
+.floors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.floor { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.floor-art { aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface); border-bottom: 1px solid var(--border); }
+.floor-art svg { width: 100%; height: 100%; display: block; }
+.floor-body { padding: var(--space-3); display: grid; gap: 8px; }
+.floor-body .eyebrow { font-size: .85rem; }
+.floor-body h3 { font-size: 1.4rem; }
+.floor-body p { color: var(--muted); font-size: .95rem; }
+@media (max-width: 860px) { .floors { grid-template-columns: 1fr; max-width: 520px; } }
+
+/* Visit + booking */
+.visit { background: var(--surface); border-top: 1px solid var(--border); }
+.visit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); align-items: start; }
+.info { display: grid; gap: var(--space-3); min-width: 0; }
+.hours { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.hours td { padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.hours td:last-child { text-align: right; font-weight: 600; }
+.hours tr.today td { color: var(--primary); font-weight: 700; }
+.contact-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.contact-row svg { width: 20px; height: 20px; color: var(--secondary); flex: none; }
+.contact-row .val { font-weight: 600; user-select: all; }
+.copy { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font: 500 .85rem var(--font-body); cursor: pointer; }
+.copy:hover { border-color: var(--secondary); }
+.map-link { color: var(--primary); font-weight: 600; }
+
+.booking { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: var(--space-4); box-shadow: var(--shadow); display: grid; gap: var(--space-3); }
+.booking h3 { font-size: 1.75rem; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label { font-weight: 600; font-size: .95rem; }
+.field input, .field select, .field textarea { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); font: 400 1rem var(--font-body); }
+.field textarea { min-height: 88px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 3px solid var(--ring); outline-offset: 1px; border-color: transparent; }
+.field .err { color: var(--closed); font-size: .85rem; min-height: 1.2em; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.form-ok { padding: 14px 16px; border-radius: 8px; background: var(--surface); border: 1px solid var(--ok); color: var(--fg); }
+.form-ok b { color: var(--ok); }
+@media (max-width: 860px) { .visit-grid { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .row2 { grid-template-columns: 1fr; } .booking { padding: var(--space-3); } }
+
+footer { background: var(--coffee); color: #F6E7C8; padding-block: var(--space-4); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); font-size: .9rem; }
+footer b { font-family: var(--font-display); font-size: 1.2rem; }
+footer span { color: #C9AE8A; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .drip, .steam path { animation: none; }
+  .drip { opacity: 0; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Phin & Mái">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18 20 6l16 12"/><path d="M11 19h18l-2 6H13z"/><path d="M15 25v3m10-3v3M9 33h22"/><path d="M20 28v3"/></svg>
+      <b>Phin &amp; Mái</b>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#menu" data-i18n="nav.menu">Thực đơn</a></li>
+      <li><a href="#story" data-i18n="nav.story">Câu chuyện</a></li>
+      <li><a href="#space" data-i18n="nav.space">Không gian</a></li>
+      <li><a href="#visit" data-i18n="nav.visit">Ghé quán</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang" role="group" aria-label="Ngôn ngữ / Language">
+        <button type="button" id="lang-vi" data-lang="vi" aria-pressed="true">VI</button>
+        <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-primary btn-book" href="#booking" data-i18n="cta.book">Đặt bàn</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Cà phê phin · Phố cổ Hà Nội</p>
+        <h1 data-i18n-html="hero.title">Chậm một nhịp, <em>dưới mái ngói cũ.</em></h1>
+        <p class="lead" data-i18n="hero.lead">Robusta Cầu Đất rang tại quán, nhỏ từng giọt qua phin nhôm. Cà phê trứng đánh tay, gác gỗ nhìn ra mái ngói phố Hàng.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#menu" data-i18n="cta.menu">Xem thực đơn</a>
+          <a class="btn btn-ghost" href="#booking" data-i18n="cta.book">Đặt bàn</a>
+        </div>
+        <div class="status" aria-live="polite">
+          <span class="pill" id="open-pill"><i aria-hidden="true"></i><span id="open-text">Đang mở cửa</span></span>
+          <span class="hrs"><span data-i18n="hero.daily">Hằng ngày</span> 07:00 – 22:30</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 360 380">
+          <circle cx="180" cy="190" r="170" fill="var(--surface)" stroke="var(--border)" stroke-width="2"/>
+          <!-- phin -->
+          <rect x="128" y="70" width="104" height="14" rx="4" fill="var(--secondary)"/>
+          <path d="M138 84h84l-8 74h-68z" fill="var(--primary)"/>
+          <rect x="112" y="156" width="136" height="10" rx="5" fill="var(--secondary)"/>
+          <path d="M150 100h60" stroke="var(--on-primary)" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+          <!-- drops -->
+          <g class="drip"><ellipse cx="180" cy="176" rx="4" ry="6" fill="var(--coffee)"/></g>
+          <!-- glass -->
+          <path d="M126 170h108l-10 150a12 12 0 0 1-12 11h-64a12 12 0 0 1-12-11z" fill="var(--card)" stroke="var(--line)" stroke-width="3"/>
+          <path d="M131 240h98l-5 80a12 12 0 0 1-12 11h-64a12 12 0 0 1-12-11z" fill="var(--coffee)"/>
+          <path d="M132 226h96l-1 14h-94z" fill="#F3D9A4"/>
+          <!-- steam -->
+          <g class="steam" fill="none" stroke="var(--muted)" stroke-width="3" stroke-linecap="round">
+            <path d="M262 150c-10-12 10-18 0-32"/>
+            <path d="M282 160c-10-12 10-18 0-32"/>
+          </g>
+          <!-- saucer -->
+          <ellipse cx="180" cy="336" rx="96" ry="12" fill="var(--line)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section menu" id="menu" aria-labelledby="menu-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" data-i18n="menu.eyebrow">Thực đơn</p>
+        <h2 id="menu-h" data-i18n="menu.title">Pha bằng phin, uống thật chậm</h2>
+        <p data-i18n="menu.lead">Giá tính bằng nghìn đồng, đã gồm VAT. Mọi món phin cần khoảng 5 phút để nhỏ xong.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Danh mục">
+        <button class="tab" role="tab" id="tab-coffee" aria-selected="true" aria-controls="menu-panel" data-cat="coffee" data-i18n="cat.coffee">Cà phê</button>
+        <button class="tab" role="tab" id="tab-tea" aria-selected="false" aria-controls="menu-panel" data-cat="tea" data-i18n="cat.tea">Trà &amp; khác</button>
+        <button class="tab" role="tab" id="tab-food" aria-selected="false" aria-controls="menu-panel" data-cat="food" data-i18n="cat.food">Ăn nhẹ</button>
+      </div>
+      <ul class="menu-list" id="menu-panel" role="tabpanel" aria-labelledby="tab-coffee"></ul>
+      <p class="menu-note" data-i18n="menu.note">Có sữa yến mạch thay sữa đặc (+10k). Báo nhân viên nếu bạn dị ứng trứng hoặc sữa.</p>
+    </div>
+  </section>
+
+  <section class="section" id="story" aria-labelledby="story-h">
+    <div class="wrap story-grid">
+      <div>
+        <p class="eyebrow" data-i18n="story.eyebrow">Câu chuyện</p>
+        <h2 id="story-h" class="story-quote" style="margin-top:16px" data-i18n="story.quote">“Một ly phin không vội được. Và chúng tôi thích điều đó.”</h2>
+      </div>
+      <div class="story-body">
+        <p data-i18n="story.p1">Phin &amp; Mái nằm trong một căn nhà ống ba tầng xây từ thập niên 1930. Chúng tôi giữ lại cầu thang gỗ, gạch bông và khung cửa chớp xanh, chỉ thay mái ngói đã dột.</p>
+        <p data-i18n="story.p2">Hạt Robusta và Arabica được chọn từ nông hộ ở Cầu Đất, Lâm Đồng, rang mộc mỗi sáng thứ Hai và thứ Năm ngay tại tầng trệt. Cà phê trứng đánh tay theo công thức lòng đỏ, đường và sữa đặc quen thuộc của Hà Nội.</p>
+        <div class="facts">
+          <div class="fact"><b>1930</b><span data-i18n="story.f1">năm căn nhà được xây</span></div>
+          <div class="fact"><b>2</b><span data-i18n="story.f2">mẻ rang mỗi tuần</span></div>
+          <div class="fact"><b>5′</b><span data-i18n="story.f3">để một phin nhỏ xong</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="space" aria-labelledby="space-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" data-i18n="space.eyebrow">Không gian</p>
+        <h2 id="space-h" data-i18n="space.title">Ba tầng, ba nhịp ngồi</h2>
+      </div>
+      <div class="floors">
+        <article class="floor">
+          <div class="floor-art" aria-hidden="true"><svg viewBox="0 0 240 180"><rect width="240" height="180" fill="var(--surface)"/><rect x="30" y="96" width="180" height="44" rx="4" fill="var(--secondary)"/><rect x="30" y="88" width="180" height="10" fill="var(--primary)"/><g fill="var(--primary)"><rect x="58" y="60" width="18" height="28" rx="2"/><rect x="110" y="56" width="22" height="32" rx="2"/><rect x="162" y="64" width="16" height="24" rx="2"/></g><path d="M0 150h240" stroke="var(--line)" stroke-width="4"/><g fill="var(--line)"><rect x="20" y="152" width="20" height="20"/><rect x="60" y="152" width="20" height="20"/><rect x="100" y="152" width="20" height="20"/><rect x="140" y="152" width="20" height="20"/><rect x="180" y="152" width="20" height="20"/><rect x="220" y="152" width="20" height="20"/></g></svg></div>
+          <div class="floor-body"><p class="eyebrow" data-i18n="space.f1.k">Tầng trệt</p><h3 data-i18n="space.f1.t">Quầy rang &amp; pha</h3><p data-i18n="space.f1.d">Ngồi quầy xem pha phin, ngửi mùi rang mộc. Hợp đi một mình, ghé nhanh.</p></div>
+        </article>
+        <article class="floor">
+          <div class="floor-art" aria-hidden="true"><svg viewBox="0 0 240 180"><rect width="240" height="180" fill="var(--surface)"/><rect x="40" y="24" width="70" height="96" fill="var(--card)" stroke="var(--line)" stroke-width="3"/><g stroke="var(--ok)" stroke-width="4"><path d="M44 36h62M44 48h62M44 60h62M44 72h62M44 84h62M44 96h62M44 108h62"/></g><rect x="130" y="24" width="70" height="96" fill="var(--card)" stroke="var(--line)" stroke-width="3"/><g stroke="var(--ok)" stroke-width="4"><path d="M134 36h62M134 48h62M134 60h62M134 72h62M134 84h62M134 96h62M134 108h62"/></g><rect x="70" y="132" width="100" height="10" rx="3" fill="var(--secondary)"/><path d="M84 142v26M156 142v26" stroke="var(--secondary)" stroke-width="5"/></svg></div>
+          <div class="floor-body"><p class="eyebrow" data-i18n="space.f2.k">Tầng 2</p><h3 data-i18n="space.f2.t">Gác gỗ cửa chớp</h3><p data-i18n="space.f2.d">Bàn thấp, ghế đẩu, ổ cắm ở mọi bàn. Yên tĩnh để đọc sách hay làm việc.</p></div>
+        </article>
+        <article class="floor">
+          <div class="floor-art" aria-hidden="true"><svg viewBox="0 0 240 180"><rect width="240" height="180" fill="var(--surface)"/><circle cx="190" cy="44" r="18" fill="var(--border)"/><g fill="var(--secondary)"><path d="M0 120 40 92l40 28z"/><path d="M60 126 110 86l50 40z"/><path d="M140 118 185 90l55 28z"/></g><g fill="var(--primary)"><rect y="120" width="80" height="60"/><rect x="60" y="126" width="100" height="54"/><rect x="140" y="118" width="100" height="62"/></g><path d="M0 150h240" stroke="var(--line)" stroke-width="3"/></svg></div>
+          <div class="floor-body"><p class="eyebrow" data-i18n="space.f3.k">Sân thượng</p><h3 data-i18n="space.f3.t">Nhìn ra mái ngói</h3><p data-i18n="space.f3.d">Đẹp nhất lúc 17:00 – 18:30. Nên đặt bàn trước cho nhóm từ 4 người.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section visit" id="visit" aria-labelledby="visit-h">
+    <div class="wrap visit-grid">
+      <div class="info">
+        <div class="section-head" style="margin-bottom:0">
+          <p class="eyebrow" data-i18n="visit.eyebrow">Ghé quán</p>
+          <h2 id="visit-h" data-i18n="visit.title">Giờ mở cửa &amp; địa chỉ</h2>
+        </div>
+        <table class="hours" aria-label="Giờ mở cửa">
+          <tbody>
+            <tr data-days="1,2,3,4,5"><td data-i18n="visit.weekdays">Thứ Hai – Thứ Sáu</td><td>07:00 – 22:30</td></tr>
+            <tr data-days="6,0"><td data-i18n="visit.weekend">Thứ Bảy – Chủ Nhật</td><td>07:00 – 22:30</td></tr>
+            <tr><td data-i18n="visit.last">Nhận order cuối</td><td>22:00</td></tr>
+          </tbody>
+        </table>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <span class="val" id="addr">12 Hàng Mã, Hoàn Kiếm, Hà Nội</span>
+          <button class="copy" type="button" data-copy="addr" data-i18n="copy">Sao chép</button>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <span class="val" id="phone">0912 345 678</span>
+          <button class="copy" type="button" data-copy="phone" data-i18n="copy">Sao chép</button>
+        </div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=H%C3%A0ng+M%C3%A3+Ho%C3%A0n+Ki%E1%BA%BFm+H%C3%A0+N%E1%BB%99i" target="_blank" rel="noopener" data-i18n="visit.map">Mở Google Maps →</a>
+      </div>
+
+      <form class="booking" id="booking" novalidate aria-labelledby="book-h">
+        <h3 id="book-h" data-i18n="book.title">Đặt bàn</h3>
+        <div class="field">
+          <label for="b-name" data-i18n="book.name">Tên của bạn</label>
+          <input id="b-name" name="name" autocomplete="name" value="Nguyễn Minh Anh">
+          <span class="err" id="e-name"></span>
+        </div>
+        <div class="field">
+          <label for="b-phone" data-i18n="book.phone">Số điện thoại</label>
+          <input id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" value="0987 654 321">
+          <span class="err" id="e-phone"></span>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="b-date" data-i18n="book.date">Ngày</label>
+            <input id="b-date" name="date" type="date">
+            <span class="err" id="e-date"></span>
+          </div>
+          <div class="field">
+            <label for="b-time" data-i18n="book.time">Giờ</label>
+            <input id="b-time" name="time" type="time" min="07:00" max="22:00" value="17:30">
+            <span class="err" id="e-time"></span>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="b-size" data-i18n="book.size">Số người</label>
+            <select id="b-size" name="size"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option value="7+">7+</option></select>
+          </div>
+          <div class="field">
+            <label for="b-floor" data-i18n="book.floor">Khu vực</label>
+            <select id="b-floor" name="floor">
+              <option value="any" data-i18n="book.any">Bất kỳ</option>
+              <option value="g" data-i18n="space.f1.k">Tầng trệt</option>
+              <option value="2" data-i18n="space.f2.k">Tầng 2</option>
+              <option value="roof" selected data-i18n="space.f3.k">Sân thượng</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="b-note" data-i18n="book.note">Ghi chú (không bắt buộc)</label>
+          <textarea id="b-note" name="note" data-i18n-ph="book.noteph" placeholder="Ví dụ: sinh nhật, cần ghế trẻ em…"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit" data-i18n="book.submit">Gửi yêu cầu đặt bàn</button>
+        <div class="form-ok" id="form-ok" hidden role="status"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>Phin &amp; Mái</b><br><span data-i18n="foot.tag">Cà phê phin · Phố cổ Hà Nội</span></div>
+    <span data-i18n="foot.sample">Tên quán, địa chỉ, số điện thoại và giá là nội dung mẫu.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var MENU = {
+    coffee: [
+      { vi: "Cà phê đen phin", en: "Black phin coffee", dvi: "Robusta Cầu Đất rang mộc, nóng hoặc đá.", den: "House-roasted Cầu Đất robusta, hot or iced.", p: 35 },
+      { vi: "Cà phê sữa đá", en: "Iced milk coffee", dvi: "Phin đậm với sữa đặc, rót lên đá viên.", den: "Strong phin coffee with condensed milk over ice.", p: 40 },
+      { vi: "Cà phê trứng", en: "Egg coffee", dvi: "Lòng đỏ đánh tay với đường và sữa đặc, đặt trong bát nước nóng.", den: "Hand-whipped yolk, sugar and condensed milk, served in a hot water bath.", p: 55, tag: { vi: "Đặc trưng", en: "Signature" } },
+      { vi: "Bạc xỉu", en: "Bạc xỉu", dvi: "Nhiều sữa, ít cà phê. Dịu cho buổi chiều.", den: "More milk than coffee. A gentle afternoon cup.", p: 40 },
+      { vi: "Cà phê cốt dừa", en: "Coconut coffee", dvi: "Cốt dừa xay đá, rưới phin đen.", den: "Blended coconut cream and ice, topped with black phin.", p: 55 },
+      { vi: "Phin Arabica một nguồn", en: "Single-origin Arabica phin", dvi: "Arabica Cầu Đất rang sáng, hậu vị trái cây.", den: "Light-roast Cầu Đất arabica with a fruity finish.", p: 60, tag: { vi: "Mới", en: "New" } }
+    ],
+    tea: [
+      { vi: "Trà sen Tây Hồ", en: "West Lake lotus tea", dvi: "Trà Thái Nguyên ướp sen, pha ấm cho 2 người.", den: "Thái Nguyên tea scented with lotus, a pot for two.", p: 70 },
+      { vi: "Trà chanh giã tay", en: "Hand-pounded lime tea", dvi: "Trà xanh, chanh vỏ giã, mật ong.", den: "Green tea, pounded lime peel, honey.", p: 35 },
+      { vi: "Ca cao nóng", en: "Hot cacao", dvi: "Ca cao Bến Tre, sữa tươi.", den: "Bến Tre cacao with fresh milk.", p: 45 },
+      { vi: "Sữa chua cà phê", en: "Coffee yoghurt", dvi: "Sữa chua nhà làm, rưới phin đen.", den: "House yoghurt with a shot of black phin.", p: 45 }
+    ],
+    food: [
+      { vi: "Bánh mì bơ đường", en: "Butter-sugar bánh mì", dvi: "Nướng giòn, ăn kèm cà phê đen.", den: "Toasted crisp, made for black coffee.", p: 30 },
+      { vi: "Bánh flan caramen", en: "Caramel flan", dvi: "Rưới cà phê đen và đá bào.", den: "With black coffee and shaved ice.", p: 35 },
+      { vi: "Hướng dương rang", en: "Roasted sunflower seeds", dvi: "Một đĩa nhâm nhi kiểu Hà Nội.", den: "The classic Hanoi café nibble.", p: 20 },
+      { vi: "Bánh cốm Hàng Than", en: "Green rice cake", dvi: "Cốm dẻo, nhân đậu xanh dừa.", den: "Young sticky rice with mung bean and coconut.", p: 40 }
+    ]
+  };
+
+  var T = {
+    vi: {
+      "nav.menu":"Thực đơn","nav.story":"Câu chuyện","nav.space":"Không gian","nav.visit":"Ghé quán",
+      "cta.book":"Đặt bàn","cta.menu":"Xem thực đơn",
+      "hero.eyebrow":"Cà phê phin · Phố cổ Hà Nội",
+      "hero.title":"Chậm một nhịp, <em>dưới mái ngói cũ.</em>",
+      "hero.lead":"Robusta Cầu Đất rang tại quán, nhỏ từng giọt qua phin nhôm. Cà phê trứng đánh tay, gác gỗ nhìn ra mái ngói phố Hàng.",
+      "hero.daily":"Hằng ngày","open":"Đang mở cửa","closed":"Đã đóng cửa · mở lại 07:00","closing":"Sắp đóng cửa",
+      "menu.eyebrow":"Thực đơn","menu.title":"Pha bằng phin, uống thật chậm",
+      "menu.lead":"Giá tính bằng nghìn đồng, đã gồm VAT. Mọi món phin cần khoảng 5 phút để nhỏ xong.",
+      "cat.coffee":"Cà phê","cat.tea":"Trà & khác","cat.food":"Ăn nhẹ",
+      "menu.note":"Có sữa yến mạch thay sữa đặc (+10k). Báo nhân viên nếu bạn dị ứng trứng hoặc sữa.",
+      "story.eyebrow":"Câu chuyện","story.quote":"“Một ly phin không vội được. Và chúng tôi thích điều đó.”",
+      "story.p1":"Phin & Mái nằm trong một căn nhà ống ba tầng xây từ thập niên 1930. Chúng tôi giữ lại cầu thang gỗ, gạch bông và khung cửa chớp xanh, chỉ thay mái ngói đã dột.",
+      "story.p2":"Hạt Robusta và Arabica được chọn từ nông hộ ở Cầu Đất, Lâm Đồng, rang mộc mỗi sáng thứ Hai và thứ Năm ngay tại tầng trệt. Cà phê trứng đánh tay theo công thức lòng đỏ, đường và sữa đặc quen thuộc của Hà Nội.",
+      "story.f1":"năm căn nhà được xây","story.f2":"mẻ rang mỗi tuần","story.f3":"để một phin nhỏ xong",
+      "space.eyebrow":"Không gian","space.title":"Ba tầng, ba nhịp ngồi",
+      "space.f1.k":"Tầng trệt","space.f1.t":"Quầy rang & pha","space.f1.d":"Ngồi quầy xem pha phin, ngửi mùi rang mộc. Hợp đi một mình, ghé nhanh.",
+      "space.f2.k":"Tầng 2","space.f2.t":"Gác gỗ cửa chớp","space.f2.d":"Bàn thấp, ghế đẩu, ổ cắm ở mọi bàn. Yên tĩnh để đọc sách hay làm việc.",
+      "space.f3.k":"Sân thượng","space.f3.t":"Nhìn ra mái ngói","space.f3.d":"Đẹp nhất lúc 17:00 – 18:30. Nên đặt bàn trước cho nhóm từ 4 người.",
+      "visit.eyebrow":"Ghé quán","visit.title":"Giờ mở cửa & địa chỉ","visit.weekdays":"Thứ Hai – Thứ Sáu","visit.weekend":"Thứ Bảy – Chủ Nhật","visit.last":"Nhận order cuối","visit.map":"Mở Google Maps →",
+      "copy":"Sao chép","copied":"Đã chép",
+      "book.title":"Đặt bàn","book.name":"Tên của bạn","book.phone":"Số điện thoại","book.date":"Ngày","book.time":"Giờ","book.size":"Số người","book.floor":"Khu vực","book.any":"Bất kỳ",
+      "book.note":"Ghi chú (không bắt buộc)","book.noteph":"Ví dụ: sinh nhật, cần ghế trẻ em…","book.submit":"Gửi yêu cầu đặt bàn",
+      "err.name":"Vui lòng nhập tên.","err.phone":"Số điện thoại cần 10 chữ số, bắt đầu bằng 0.","err.date":"Chọn một ngày từ hôm nay trở đi.","err.time":"Quán nhận khách từ 07:00 đến 22:00.",
+      "ok":"<b>Đã nhận yêu cầu</b> cho {n} người lúc {t}, {d}. Đây là bản mẫu nên yêu cầu chưa được gửi tới quán.",
+      "foot.tag":"Cà phê phin · Phố cổ Hà Nội","foot.sample":"Tên quán, địa chỉ, số điện thoại và giá là nội dung mẫu.",
+      "unit":"k"
+    },
+    en: {
+      "nav.menu":"Menu","nav.story":"Our story","nav.space":"The space","nav.visit":"Visit",
+      "cta.book":"Book a table","cta.menu":"See the menu",
+      "hero.eyebrow":"Phin coffee · Hanoi Old Quarter",
+      "hero.title":"Slow down a beat, <em>under the old tile roof.</em>",
+      "hero.lead":"Cầu Đất robusta roasted in-house and dripped through an aluminium phin. Hand-whipped egg coffee and a wooden loft overlooking the Old Quarter rooftops.",
+      "hero.daily":"Daily","open":"Open now","closed":"Closed · opens 07:00","closing":"Closing soon",
+      "menu.eyebrow":"Menu","menu.title":"Made with a phin, meant to be sipped slowly",
+      "menu.lead":"Prices in thousand VND, VAT included. Every phin drink takes about 5 minutes to drip.",
+      "cat.coffee":"Coffee","cat.tea":"Tea & more","cat.food":"Small bites",
+      "menu.note":"Oat milk instead of condensed milk (+10k). Tell our staff about any egg or dairy allergy.",
+      "story.eyebrow":"Our story","story.quote":"“You can't rush a phin. We like it that way.”",
+      "story.p1":"Phin & Mái sits in a three-storey tube house built in the 1930s. We kept the wooden staircase, the patterned cement tiles and the green shutters, and only replaced the leaking roof tiles.",
+      "story.p2":"Our robusta and arabica come from smallholder farms in Cầu Đất, Lâm Đồng, roasted every Monday and Thursday morning on the ground floor. The egg coffee follows the classic Hanoi recipe of yolk, sugar and condensed milk.",
+      "story.f1":"year the house was built","story.f2":"roasts every week","story.f3":"for one phin to drip",
+      "space.eyebrow":"The space","space.title":"Three floors, three paces",
+      "space.f1.k":"Ground floor","space.f1.t":"Roastery & bar","space.f1.d":"Sit at the bar, watch the phin drip and smell the roast. Good for solo, quick visits.",
+      "space.f2.k":"Second floor","space.f2.t":"Shuttered wooden loft","space.f2.d":"Low tables, stools and a socket at every table. Quiet enough to read or work.",
+      "space.f3.k":"Rooftop","space.f3.t":"Over the tile roofs","space.f3.d":"Best from 17:00 to 18:30. Book ahead for groups of 4 or more.",
+      "visit.eyebrow":"Visit","visit.title":"Opening hours & address","visit.weekdays":"Monday – Friday","visit.weekend":"Saturday – Sunday","visit.last":"Last orders","visit.map":"Open in Google Maps →",
+      "copy":"Copy","copied":"Copied",
+      "book.title":"Book a table","book.name":"Your name","book.phone":"Phone number","book.date":"Date","book.time":"Time","book.size":"Guests","book.floor":"Seating","book.any":"Any",
+      "book.note":"Notes (optional)","book.noteph":"e.g. birthday, need a high chair…","book.submit":"Send booking request",
+      "err.name":"Please enter your name.","err.phone":"Use a 10-digit number starting with 0.","err.date":"Pick today or a later date.","err.time":"We seat guests from 07:00 to 22:00.",
+      "ok":"<b>Request received</b> for {n} guests at {t} on {d}. This is a sample page, so the request was not sent to the café.",
+      "foot.tag":"Phin coffee · Hanoi Old Quarter","foot.sample":"Café name, address, phone and prices are sample content.",
+      "unit":"k"
+    }
+  };
+
+  var lang = "vi", cat = "coffee";
+  try { var s = localStorage.getItem("pm-lang"); if (s === "en" || s === "vi") lang = s; } catch (e) {}
+
+  function t(k) { return (T[lang] && T[lang][k]) || T.vi[k] || k; }
+
+  function renderMenu() {
+    var ul = document.getElementById("menu-panel");
+    ul.innerHTML = "";
+    MENU[cat].forEach(function (m) {
+      var li = document.createElement("li"); li.className = "item";
+      var h = document.createElement("h3"); h.textContent = m[lang];
+      if (m.tag) { var tg = document.createElement("span"); tg.className = "tag"; tg.textContent = m.tag[lang]; h.appendChild(tg); }
+      var pr = document.createElement("span"); pr.className = "price"; pr.textContent = m.p + t("unit");
+      var d = document.createElement("p"); d.textContent = lang === "vi" ? m.dvi : m.den;
+      li.append(h, pr, d); ul.appendChild(li);
+    });
+    ul.setAttribute("aria-labelledby", "tab-" + cat);
+  }
+
+  function hanoiNow() {
+    var parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Ho_Chi_Minh", hour: "2-digit", minute: "2-digit", weekday: "short", hour12: false }).formatToParts(new Date());
+    var o = {}; parts.forEach(function (p) { o[p.type] = p.value; });
+    var wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(o.weekday);
+    return { mins: (+o.hour % 24) * 60 + (+o.minute), day: wd };
+  }
+
+  function renderStatus() {
+    var n = hanoiNow(), pill = document.getElementById("open-pill"), txt = document.getElementById("open-text");
+    var open = n.mins >= 420 && n.mins < 1350;
+    pill.className = "pill " + (open ? "open" : "closed");
+    txt.textContent = !open ? t("closed") : (n.mins >= 1290 ? t("closing") : t("open"));
+    document.querySelectorAll(".hours tr[data-days]").forEach(function (tr) {
+      tr.classList.toggle("today", tr.dataset.days.split(",").indexOf(String(n.day)) > -1);
+    });
+  }
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) { el.innerHTML = t(el.dataset.i18nHtml); });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function (el) { el.placeholder = t(el.dataset.i18nPh); });
+    document.querySelectorAll(".lang button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lang === lang)); });
+    renderMenu(); renderStatus();
+    document.querySelectorAll(".err").forEach(function (e) { if (e.dataset.k) e.textContent = t(e.dataset.k); });
+    var ok = document.getElementById("form-ok"); if (!ok.hidden && ok.dataset.args) showOk(JSON.parse(ok.dataset.args));
+  }
+
+  document.querySelectorAll(".lang button").forEach(function (b) {
+    b.addEventListener("click", function () { lang = b.dataset.lang; try { localStorage.setItem("pm-lang", lang); } catch (e) {} applyLang(); });
+  });
+
+  document.querySelectorAll(".tab").forEach(function (b) {
+    b.addEventListener("click", function () {
+      cat = b.dataset.cat;
+      document.querySelectorAll(".tab").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+      renderMenu();
+    });
+  });
+
+  document.querySelectorAll(".copy").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var el = document.getElementById(b.dataset.copy), val = el.textContent;
+      function done() { b.textContent = t("copied"); setTimeout(function () { b.textContent = t("copy"); }, 1600); }
+      function fallback() { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+      try { navigator.clipboard.writeText(val).then(done, fallback); } catch (e) { fallback(); }
+    });
+  });
+
+  // Booking form
+  var dateEl = document.getElementById("b-date");
+  (function () {
+    var p = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Ho_Chi_Minh" }).format(new Date());
+    dateEl.min = p;
+    var d = new Date(p + "T00:00:00"); d.setDate(d.getDate() + 1);
+    dateEl.value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  })();
+
+  function setErr(id, k) {
+    var e = document.getElementById("e-" + id), input = document.getElementById("b-" + id);
+    e.dataset.k = k || ""; e.textContent = k ? t(k) : "";
+    if (k) { input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", "e-" + id); } else input.removeAttribute("aria-invalid");
+    return !k;
+  }
+  function showOk(a) {
+    var ok = document.getElementById("form-ok");
+    var dStr = new Date(a.d + "T00:00:00").toLocaleDateString(lang === "vi" ? "vi-VN" : "en-GB", { weekday: "long", day: "numeric", month: "long" });
+    ok.innerHTML = t("ok").replace("{n}", a.n).replace("{t}", a.t).replace("{d}", dStr);
+    ok.dataset.args = JSON.stringify(a); ok.hidden = false;
+  }
+  document.getElementById("booking").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var f = ev.target, ok = true, first = null;
+    function chk(id, cond, k) { var good = setErr(id, cond ? null : k); if (!good && !first) first = id; ok = ok && good; }
+    chk("name", f.name.value.trim().length > 0, "err.name");
+    chk("phone", /^0\d{9}$/.test(f.phone.value.replace(/[\s.-]/g, "")), "err.phone");
+    chk("date", f.date.value && f.date.value >= dateEl.min, "err.date");
+    chk("time", f.time.value >= "07:00" && f.time.value <= "22:00", "err.time");
+    if (!ok) { document.getElementById("form-ok").hidden = true; document.getElementById("b-" + first).focus(); return; }
+    showOk({ n: f.size.value, t: f.time.value, d: f.date.value });
+  });
+
+  applyLang();
+  setInterval(renderStatus, 60000);
+})();
+</script>
+
+</body>
+</html>
